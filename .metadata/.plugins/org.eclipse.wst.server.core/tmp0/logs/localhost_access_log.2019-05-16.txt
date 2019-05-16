@@ -1,0 +1,2 @@
+0:0:0:0:0:0:0:1 - - [16/May/2019:01:43:14 +0530] "GET /tjtyredevelopment30-04-2019/createuserrolemappinglink HTTP/1.1" 500 318
+0:0:0:0:0:0:0:1 - - [16/May/2019:01:43:16 +0530] "GET /tjtyredevelopment30-04-2019/warehouseRegistration HTTP/1.1" 500 8206

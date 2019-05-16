@@ -1,0 +1,5 @@
+package com.tjt.SessionDemo.Service;
+
+public class LogService {
+
+}

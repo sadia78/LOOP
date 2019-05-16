@@ -1,0 +1,38 @@
+package com.tjt.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.tjt.dto.Hierarchy_Module_DTO;
+import com.tjt.entity.Hierarchy_Module;
+
+public interface Hierarchy_ModuleDAO extends JpaRepository<Hierarchy_Module, Long> {
+	@Query("select lb.lable from Hierarchy_Module lb where lb.module_ID=:module_ID ")
+	public List<String>showLable(  @Param("module_ID")String module_Id);
+	
+	@Query("select hm.level from Hierarchy_Module hm where hm.module_ID=:module_ID")
+	public List<String> allLevelBYModuleId(@Param("module_ID") String module_ID );
+	
+	@Query("select rrc.role from Resource_Role_Access rrc where rrc.hierchy_Module=:hierchy_Module  and rrc.level=:level")
+	public List<String> allRoleBYModuleIdAndLevel(@Param("hierchy_Module") String hierchy_Module ,@Param("level") String level );
+	
+	@Query("select hm.level from Hierarchy_Module hm where hm.lable=:lable")
+	public Integer alllevel_depthBYLevel(@Param("lable") String lable );
+	
+	@Query("select hm.lable from Hierarchy_Module hm where hm.level >:level")
+	public List<String> allLevelBYLevel(@Param("level") Integer level );
+	
+	@Query("select urm.userId from User_Role_Mapping urm where urm.role=:role")
+	public List<String> allUserIdByRole(@Param("role") String role  );
+	
+	@Query("select hm.access from Resource_Role_Access hm where hm.hierchy_Module =:hierchy_Module and hm.level=:level and hm.role=:role ")
+	public List<String> allAccessByROle(@Param("hierchy_Module") String hierarchy_Module ,@Param("level") String level,@Param("role") String role );
+	
+	@Query("select md.module_Id from Module_Master md")
+	public List<String> allModuleId();
+	
+
+}

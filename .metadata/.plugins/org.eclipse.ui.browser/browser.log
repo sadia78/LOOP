@@ -1,0 +1,13 @@
+
+Apr 01, 2019 11:36:15.20 NEW SESSION
+Apr 01, 2019 11:36:15.20 [9520:13264:346785968:ERROR:external_registry_loader_win.cc(89)] Missing value path for key Software\Google\Chrome\Extensions\ijahobfejgeblmkpcmgpelfibgnnjpil.
+Apr 01, 2019 11:36:15.30 [9520:13264:346785984:ERROR:external_registry_loader_win.cc(89)] Missing value path for key Software\Google\Chrome\Extensions\pilplloabdedfmialnfchjomjmpjcoej.
+Apr 01, 2019 11:36:15.33 [9520:6464:346786125:ERROR:web_data_service.cc(668)] Cannot initialize the web database: 2
+Apr 01, 2019 11:38:25.27 [6316:12220:346916046:ERROR:web_data_service.cc(668)] Cannot initialize the web database: 2
+Apr 01, 2019 11:38:25.48 [6316:11532:346916265:ERROR:external_registry_loader_win.cc(89)] Missing value path for key Software\Google\Chrome\Extensions\ijahobfejgeblmkpcmgpelfibgnnjpil.
+Apr 01, 2019 11:38:25.57 [6316:11532:346916265:ERROR:external_registry_loader_win.cc(89)] Missing value path for key Software\Google\Chrome\Extensions\pilplloabdedfmialnfchjomjmpjcoej.
+
+Apr 02, 2019 11:58:06.15 NEW SESSION
+Apr 02, 2019 11:58:06.15 [14428:8868:434496890:ERROR:web_data_service.cc(668)] Cannot initialize the web database: 2
+Apr 02, 2019 11:58:06.19 [14428:7220:434496953:ERROR:external_registry_loader_win.cc(89)] Missing value path for key Software\Google\Chrome\Extensions\ijahobfejgeblmkpcmgpelfibgnnjpil.
+Apr 02, 2019 11:58:06.20 [14428:7220:434496953:ERROR:external_registry_loader_win.cc(89)] Missing value path for key Software\Google\Chrome\Extensions\pilplloabdedfmialnfchjomjmpjcoej.

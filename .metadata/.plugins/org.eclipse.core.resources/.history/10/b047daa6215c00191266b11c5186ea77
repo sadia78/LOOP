@@ -1,0 +1,215 @@
+package com.tjt.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tjt.dto.Hierarchy_Module_DTO;
+import com.tjt.dto.Module_Master_DTO;
+import com.tjt.dto.Resource_Role_AccessDTO;
+import com.tjt.entity.Hierarchy_Module;
+import com.tjt.service.Resource_Role_Access_Service;
+
+@RestController
+
+public class Resource_Role_AccessController {
+	
+
+	@Autowired
+	private Resource_Role_Access_Service resource_Role_Access_Service;
+	
+	@RequestMapping(value="createroleaccess",method=RequestMethod.GET)
+	public String createroleaccess(HttpServletRequest request,Map<String,Object> map){
+		HttpSession session=null;
+		List<Resource_Role_AccessDTO> accessdto = null;
+		//create Session object
+		session=request.getSession(false);
+		String admin=(String) session.getAttribute("admin");
+		try{
+			accessdto = resource_Role_Access_Service.listResourceRoleAccess();
+			map.put("allCity", resource_Role_Access_Service);
+		//test the session is equals to admin or null if admin null then it goes to catch block
+		if(admin.equals("admin")){
+		request.setAttribute("roleAccess", "roleAccess");
+		
+		}
+		 return "resourceRoleAccess";
+		}
+		catch(Exception e){
+			request.setAttribute("SessionTimeOut", "Should enter Username and Password");
+			return "login";
+		}
+	}//end
+	
+	//to save Resource Role Access details
+	
+		@RequestMapping(value="createRoleAccess",method=RequestMethod.POST)
+		public String createRole(@RequestBody Resource_Role_AccessDTO rdto){
+			
+			try {
+				resource_Role_Access_Service.createResourceRoleAccess(rdto);
+			}
+			catch(Exception e){
+				
+			}
+			return "resourceRoleAccess";
+			
+		}
+	
+		
+		//MODULE IN DROP DOWN
+		@ResponseBody
+		@ModelAttribute("moduleIDForRoleAccess")
+		
+		public List< Module_Master_DTO> findModule(HttpServletRequest request)
+		{
+			List<String> listdto=null;
+			List<Module_Master_DTO> masterList = new ArrayList<>();
+			try{
+			listdto = resource_Role_Access_Service.AllModule();
+			 System.out.println("modle");
+			
+			for (String  moduleId : listdto) {
+				 Module_Master_DTO master=new Module_Master_DTO();
+				 System.out.println("modle");
+				master.setModule_Id(moduleId);
+				masterList.add(master);
+			}
+			}
+			catch(Exception e){
+				request.setAttribute("moduleIDForRoleAccess", " module id from master table");
+				System.out.println("pls data asija");
+				return masterList;
+			}
+			return masterList;
+			
+		}
+		
+		
+		
+		@GetMapping("/allHierarchyModule")
+		public ResponseEntity<List<String>> allHierarchyModule(){
+			List<String> listModule=null;
+			
+			ResponseEntity<List<String>> listhh=null;
+			try{
+				listModule=resource_Role_Access_Service.allHierarchyModuleId();
+				listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+			}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+
+			return listhh;
+		}
+		
+		//lable in dropdown
+		@GetMapping("lableByModule/{module_Id}")
+		@ResponseBody
+				
+		public List<String> showLable( HttpServletRequest request, @PathVariable("module_Id") String module_Id){
+			List<String>listdto=null;
+		
+			try{
+				
+			listdto=resource_Role_Access_Service.showLable( module_Id);
+			
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			request.setAttribute("lableByModule", "lable according to moduleId");
+			
+			return listdto;
+			
+		}
+		//rOLE BY MODULE AND LEVEL
+		@ResponseBody
+		@GetMapping("/allRoleByModuleIdAndLevel/{module_Id},{level}")
+		public ResponseEntity<List<String>> allRoleByModuleIdAndLevel(@PathVariable("module_Id") String hierarchy_Module_Id,@PathVariable("level") String level){
+			List<String> listModule=null;
+			ResponseEntity<List<String>> listhh=null;
+			try{
+				listModule=resource_Role_Access_Service.allRoleByModuleIdAndLevel(hierarchy_Module_Id, level);
+				listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+				System.out.println("HELLO");
+			}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+
+			return listhh;
+		}
+
+			
+		@GetMapping("/allLevelByLevelPath/{level}")
+		public ResponseEntity<List<String>> allLevelByLevel_Path(@PathVariable("level") String level){
+			List<String> listModule=null;
+			
+			ResponseEntity<List<String>> listhh=null;
+			try{
+				listModule=resource_Role_Access_Service.allLebelPathByLevel(level);
+				listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+			}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+
+			return listhh;
+		}
+		
+		@GetMapping("/allUserIdByRole/{role}")
+		public ResponseEntity<List<String>> allUserIdByRole(@PathVariable("role") String role){
+			List<String> listModule=null;
+			
+			ResponseEntity<List<String>> listhh=null;
+			try{
+				listModule=resource_Role_Access_Service.allUserIdByRole(role);
+				listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+			}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+
+			return listhh;
+		}
+		@GetMapping("/allAccessBy/{hierarchy_Module},{level},{role}")
+		public ResponseEntity<List<String>> allUserIdByRole(@PathVariable("hierarchy_Module") String hierarchy_Module,@PathVariable("level") String level,@PathVariable("role") String role){
+			List<String> listModule=null;
+			
+			ResponseEntity<List<String>> listhh=null;
+			try{
+				listModule=resource_Role_Access_Service.allAccessByROle(hierarchy_Module, level, role);
+				listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+			}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+
+			return listhh;
+		}
+}
+
+ 
+	
+	
+	
+
+

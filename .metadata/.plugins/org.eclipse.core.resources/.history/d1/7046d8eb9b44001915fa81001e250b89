@@ -1,0 +1,5 @@
+package com.tjt.factory.Entity;
+
+public class Factory {
+
+}

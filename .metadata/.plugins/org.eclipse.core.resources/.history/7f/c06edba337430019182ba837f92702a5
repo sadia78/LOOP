@@ -1,0 +1,7 @@
+package com.tjt.SessionDemo.Entity;
+
+
+
+public class LogEntity {
+
+}

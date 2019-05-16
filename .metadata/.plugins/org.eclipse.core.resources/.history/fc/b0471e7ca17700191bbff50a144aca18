@@ -1,0 +1,9 @@
+package com.tjt.GitDemo.Entity;
+
+public class GitEntity {
+	
+	public String name;
+	public String stream;
+	
+
+}

@@ -1,0 +1,59 @@
+package com.tjt.factory.Entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Factory")
+
+public class Factory {
+	@Id
+	@Column(name="factoryId",nullable=false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long factoryId;
+	@Column(name="factoryName",nullable=false)
+	private String factoryName;
+	@Column(name="factroyLocation",nullable=false)
+	private String factroyLocation;
+	@Column(name="factoryManagerId",nullable=false)
+	private String factoryManagerId;
+	@Column(name="factoryPassword",nullable=false)
+	private String factoryPassword;
+	public long getFactoryId() {
+		return factoryId;
+	}
+	public void setFactoryId(long factoryId) {
+		this.factoryId = factoryId;
+	}
+	public String getFactoryName() {
+		return factoryName;
+	}
+	public void setFactoryName(String factoryName) {
+		this.factoryName = factoryName;
+	}
+	public String getFactroyLocation() {
+		return factroyLocation;
+	}
+	public void setFactroyLocation(String factroyLocation) {
+		this.factroyLocation = factroyLocation;
+	}
+	public String getFactoryManagerId() {
+		return factoryManagerId;
+	}
+	public void setFactoryManagerId(String factoryManagerId) {
+		this.factoryManagerId = factoryManagerId;
+	}
+	public String getFactoryPassword() {
+		return factoryPassword;
+	}
+	public void setFactoryPassword(String factoryPassword) {
+		this.factoryPassword = factoryPassword;
+	}
+	
+
+}
+

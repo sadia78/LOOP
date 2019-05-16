@@ -1,0 +1,12 @@
+package com.tjt.factory.Service;
+
+import com.tjt.factory.Entity.Factory;
+
+public class FactoryService {
+
+	public void createFactory(Factory factory) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

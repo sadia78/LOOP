@@ -1,0 +1,5 @@
+package com.tjt.service;
+
+public class Resource_Role_Access_Service_Impl {
+
+}

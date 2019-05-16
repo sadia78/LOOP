@@ -1,0 +1,7 @@
+package com.tjt.GitDemo.Dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface Gitdao extends JpaRepository<T, ID> {
+
+}

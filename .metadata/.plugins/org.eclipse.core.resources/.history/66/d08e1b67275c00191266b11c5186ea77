@@ -1,0 +1,36 @@
+package com.tjt.service;
+
+import java.util.List;
+
+import com.tjt.dto.Hierarchy_Module_DTO;
+import com.tjt.dto.Module_Master_DTO;
+import com.tjt.dto.Resource_Role_AccessDTO;
+
+public interface Resource_Role_Access_Service {
+	
+	
+	
+	String createResourceRoleAccess(Resource_Role_AccessDTO dto) throws Exception;
+	
+	public List<Resource_Role_AccessDTO> listResourceRoleAccess() throws Exception;
+	
+	public List<String> AllModule()throws Exception;
+	
+	public List<String> allHierarchyModuleId()throws Exception;
+	
+	public List<String> allLevelByModuleId(String moduleId)throws Exception;
+	
+	public List<String> allRoleByModuleIdAndLevel(String hierarchy_Module_Id,String level)throws Exception;
+	
+	public List<String> allLebelPathByLevel(String level)throws Exception;
+	
+	public List<String> allUserIdByRole(String role)throws Exception;
+	
+	public List<String> allAccessByROle( String hierarchy_Module , String level,String role)throws Exception;
+
+	 public List<String> showLable(String module_Id) throws Exception;
+}
+
+	
+
+

@@ -1,0 +1,10 @@
+package com.tjt.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.tjt.entity.Resource_Role_Access;
+
+public interface Resourse_Role_AccessDAO extends JpaRepository<Resource_Role_Access, Long> {
+	
+
+}

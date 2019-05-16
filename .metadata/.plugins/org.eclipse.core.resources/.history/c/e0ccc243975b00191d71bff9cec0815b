@@ -1,0 +1,52 @@
+package com.tjt.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+
+public class Hierarchy_Module {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+	private String module_ID;
+	private String level_depth;
+	private Integer lable;
+	private String level;
+	
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getModule_ID() {
+		return module_ID;
+	}
+	public void setModule_ID(String module_ID) {
+		this.module_ID = module_ID;
+	}
+	public String getLable() {
+		return lable;
+	}
+	public void setLable(String lable) {
+		this.lable = lable;
+	}
+	public Integer getLevel() {
+		return level;
+	}
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+	public String getLevel_depth() {
+		return level_depth;
+	}
+	public void setLevel_depth(String level_depth) {
+		this.level_depth = level_depth;
+	}
+
+
+}

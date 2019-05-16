@@ -1,0 +1,10 @@
+spring.mail.host=smtp.mailtrap.io
+spring.mail.port=2525
+spring.mail.username=de2ca25c19f6d4
+spring.mail.password=7d466b8e914ba0
+spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+spring.datasource.username=postgres
+spring.datasource.password=root
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+spring.datasource.platform=postgresql

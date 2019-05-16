@@ -1,0 +1,287 @@
+package com.tjt.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tjt.dao.WarehouseDAO;
+import com.tjt.dto.City_DTO;
+import com.tjt.dto.Module_Master_DTO;
+import com.tjt.dto.User_RoleDTO;
+import com.tjt.dto.Warehouse_DTO;
+import com.tjt.entity.Hierarchy_Module;
+import com.tjt.entity.Warehouse_Registration;
+import com.tjt.service.WarehouseService;
+
+
+@Controller
+public class Warehouse_Controller {
+	@Autowired
+	private WarehouseService warehouseService;
+	@Autowired
+	private WarehouseDAO warehouseDAO;
+
+	@RequestMapping(value="warehouseRegistration",method=RequestMethod.GET)
+	public String getWarehouse() {
+		return "warehouseRegistration";
+	}
+	
+	@RequestMapping(value="createwarehouse",method=RequestMethod.GET)
+	public String createWarehouse(HttpServletRequest request,Map<String,Object> map){
+		HttpSession session=null;
+		List<Warehouse_DTO> whdto = null;
+		//create Session object
+		session=request.getSession(false);
+		String admin=(String) session.getAttribute("admin");
+		try{
+			whdto = warehouseService.listwarehouse();
+			
+			map.put("allwarehose", whdto);
+		//test the session is equals to admin or null if admin null then it goes to catch block
+		if(admin.equals("admin")){
+}
+		 return "warehouseRegistration";
+		}
+		catch(Exception e){
+			request.setAttribute("SessionTimeOut", "Should enter Username and Password");
+			return "login";
+		}
+	}//end
+
+	
+	// warehouse registration
+	@RequestMapping(value="createwarehouse",method=RequestMethod.POST)
+	public String createWarehouse(HttpServletRequest request, @ModelAttribute Warehouse_DTO warehousedto, BindingResult result,Map<String,Object> map) throws Exception{
+		List<Warehouse_DTO> whdto= null;
+		try{
+			
+		warehouseService.createWarehouse(warehousedto);
+		whdto=warehouseService.listwarehouse();
+		map.put("allWarehouse", whdto);
+		}
+		catch(Exception e){
+			
+			request.setAttribute("warehouse_registration"," Warehouse Registration successfull" );	
+			whdto=warehouseService.listwarehouse();
+			map.put("allWarehouse", whdto);
+			return "warehouseRegistration";
+		}
+		request.setAttribute("warehouse_registration", " Warehouse Registration unsuccessfull");
+		return "warehouseRegistration";
+				}
+	@ModelAttribute("list of warehouse")
+	public List<Warehouse_DTO> listcityinfo(){
+		List<Warehouse_DTO> whdto = null;
+	
+		try{
+			whdto = warehouseService.listcity();
+			
+		}
+		catch(Exception e){
+			
+		}
+		return whdto;
+		
+	}
+	
+
+	//for module in dropdown
+	/*@RequestMapping(value="warehouseRegister",method=RequestMethod.GET)
+	@ResponseBody*/
+	@ModelAttribute("moduleID")
+	public List< Module_Master_DTO> findModule(HttpServletRequest request)
+	{
+		List<String> listdto=null;
+		List< Module_Master_DTO> masterList=new ArrayList<>();
+		 System.out.println("modle");
+		try{
+		listdto = warehouseService.showModule();
+		 System.out.println("modle");
+		
+		for (String  moduleId : listdto) {
+			 Module_Master_DTO master=new Module_Master_DTO();
+			 System.out.println("modle");
+			master.setModule_Id(moduleId);
+			masterList.add(master);
+		}
+		}
+		catch(Exception e){
+			request.setAttribute("moduleID", " module id from master table");
+			System.out.println("pls data asija");
+			return masterList;
+		}
+		return masterList;
+		
+	}
+	//for warehouse update
+	@RequestMapping(value="warehouseUpdate/{id}",method=RequestMethod.PUT)
+	public String updatrWarehouse(@RequestBody Warehouse_Registration warehouseRegistration,@PathVariable String id){
+		warehouseService.updateWarehouse(warehouseRegistration,id);
+		return id;
+		
+	}
+	//for deleting
+	@RequestMapping(value="deleteWarehouse/{id}",method=RequestMethod.DELETE)
+	public String deleteWarehouse(@PathVariable String id){
+		warehouseService.deleteWarehouse(id);
+		return id;
+		
+	}
+		//for lable in dropdown
+	@GetMapping("lableByModuleID/{module_Id}")
+	@ResponseBody
+			
+	public List<String>showLable( HttpServletRequest request, @PathVariable("module_Id") String module_Id){
+		List<String>listdto=null;
+		List<Hierarchy_Module> lablelist=new ArrayList<>();
+		try{
+			
+		listdto=warehouseService.showLable( module_Id);
+		for (String  lable : listdto) {
+			Hierarchy_Module hierarchy=new Hierarchy_Module();
+			hierarchy.setLable(lable);
+			lablelist.add(hierarchy);
+		}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		request.setAttribute("lable", "lable according to moduleId");
+		
+		return listdto;
+		
+	}
+	//for allHierarchyModule in dropdown
+
+	@ModelAttribute("allHierarchyModule")
+	public List<Module_Master_DTO> allHierarchyModule(){
+		List<String> listModule=null;
+		List<Module_Master_DTO> allModule=null;
+		allModule=new ArrayList<Module_Master_DTO>();
+		ResponseEntity<List<String>> listhh=null;
+		try{
+			listModule=warehouseService.allHierarchyModuleId();
+			for (String  module : listModule) {
+				Module_Master_DTO module_Master_DTO=new Module_Master_DTO();
+				module_Master_DTO.setModule_Id(module);
+				allModule.add(module_Master_DTO);
+			}
+			listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+		}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+
+		return allModule;
+	}
+
+	@GetMapping("/allLevelByModuleId/{module_Id}")
+	public ResponseEntity<List<String>> allLevelByModuleId(@PathVariable("module_Id") String module_Id){
+		List<String> listModule=null;
+		
+		ResponseEntity<List<String>> listhh=null;
+		try{
+			listModule=warehouseService.allLevelByModuleId(module_Id);
+			listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+		}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+
+		return listhh;
+	}
+	//all role by moduleid and level
+	@GetMapping("/allRoleByModuleIdAndLevel/{module_Id},{level}")
+	public ResponseEntity<List<String>> allRoleByModuleIdAndLevel(@PathVariable("module_Id") String hierarchy_Module_Id,@PathVariable("level") String level){
+		List<String> listModule=null;
+		ResponseEntity<List<String>> listhh=null;
+		try{
+			listModule=warehouseService.allRoleByModuleIdAndLevel(hierarchy_Module_Id, level);
+			listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+		}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+
+		return listhh;
+	}
+	
+
+	
+	@GetMapping("/allLevelByLeve/{level}")
+	public ResponseEntity<List<String>> allLevelByLevel_Path(@PathVariable("level") String level){
+		List<String> listModule=null;
+		
+		ResponseEntity<List<String>> listhh=null;
+		try{
+			listModule=warehouseService.allLebelPathByLevel(level);
+			listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+		}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+
+		return listhh;
+	}
+	@ResponseBody
+	@GetMapping("/allUserIdByRo/{role}")
+	public ResponseEntity<List<String>> allUserIdByRole(@PathVariable("role") String role){
+		List<String> listModule=null;
+		
+		ResponseEntity<List<String>> listhh=null;
+		try{
+			listModule=warehouseService.allUserIdByRole(role);
+			listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+//			for (String  module : listModule) {
+//				User_RoleDTO user_RoleDTO=new User_RoleDTO();
+//				user_RoleDTO.getUserId();
+//				System.out.println("asunu kn ki re");
+//			}
+			System.out.println("asunu kn ki re");
+		}
+	
+			
+			catch(Exception e){
+				e.printStackTrace();
+			}
+System.out.println("new");
+		return listhh;
+	}
+	@GetMapping("/allAccessByy/{hierarchy_Module},{level},{role}")
+	public ResponseEntity<List<String>> allUserIdByRole(@PathVariable("hierarchy_Module") String hierarchy_Module,@PathVariable("level") String level,@PathVariable("role") String role){
+		List<String> listModule=null;
+		
+		ResponseEntity<List<String>> listhh=null;
+		try{
+			listModule=warehouseService.allAccessByROle(hierarchy_Module, level, role);
+			listhh=new ResponseEntity<>(listModule, HttpStatus.OK);
+		}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+
+		return listhh;
+	}
+}
+
+	
+	
+
+

@@ -1,0 +1,18 @@
+package com.tjt.factory.Service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.tjt.factory.DAO.FactoryDao;
+import com.tjt.factory.Entity.Factory;
+
+public class FactoryService {
+	@Autowired
+	private FactoryDao factoryDao;
+
+public void createFactory(Factory factory) {
+	factoryDao.save(factory);
+	
+		
+	}
+
+}

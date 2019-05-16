@@ -1,0 +1,6 @@
+package com.tjt.SessionDemo.Entity;
+@en
+
+public class LoginEntity {
+
+}

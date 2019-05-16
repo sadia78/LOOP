@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aop-reference-model>
+<aop-project name="Hotel_Managment"/>
+<aop-project name="Warehouse"/>
+<aop-project name="TJTYRECOMPANY30-01-19"/>
+<aop-project name="tjtyredevelopment19-04-2019"/>
+<aop-project name="tjtyredevelopment30-04-2029"/>
+</aop-reference-model>

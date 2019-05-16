@@ -1,0 +1,5 @@
+package com.tjt.dto;
+
+public class Resource_Role_AccessDTO {
+
+}
